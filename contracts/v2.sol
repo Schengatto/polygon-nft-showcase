@@ -19,26 +19,37 @@ contract SchengattoMarketplace is ERC721URIStorage {
    address payable owner;
 
    mapping(uint256 => MarketItem) private idToMarketItem;
-   
+
+   struct MarketItemAttributes {
+      uint8 backend;
+      uint8 frontend;
+      uint8 leadership;
+   }
+
    struct MarketItem {
       uint256 tokenId;
+      string name;
       address payable seller;
       address payable owner;
       uint256 price;
       bool sold;
+      string tokenURI;
+      MarketItemAttributes attributes;
    }
 
    event MarketItemCreated (
       uint256 indexed tokenId,
+      string name,
       address seller,
       address owner,
       uint256 price,
-      bool sold
+      bool sold,
+      string tokenURI,
+      MarketItemAttributes attributes
    );
 
    constructor() ERC721("Schengatto NFT", "SCH") {
         owner = payable (msg.sender);
-        baseTokenURI = "";
    }
 
   /* Updates the listing price of the contract */
@@ -53,37 +64,50 @@ contract SchengattoMarketplace is ERC721URIStorage {
     }
 
     /* Mints a token and lists it in the marketplace */
-    function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
+    function createToken(string memory tokenURI, string memory name, uint256 price, uint8 backend, uint8 frontend, uint8 leadership) public payable returns (uint) {
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
 
       _mint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId, price);
+      createMarketItem(newTokenId, price, name, backend, frontend, leadership);
       return newTokenId;
     }
 
     function createMarketItem(
       uint256 tokenId,
-      uint256 price
+      uint256 price,
+      string memory name,
+      uint8 backend,
+      uint8 frontend,
+      uint8 leadership
     ) private {
       require(msg.value == listingPrice, "Price must be equal to listing price");
+      require(backend < 10, "backend must be between 0 and 10");
+      require(frontend < 10, "frontend must be between 0 and 10");
+      require(leadership < 10, "leadership must be between 0 and 10");
 
       idToMarketItem[tokenId] =  MarketItem(
         tokenId,
+        name,
         payable(msg.sender),
         payable(address(this)),
         price,
-        false
+        false,
+        tokenURI(tokenId),
+        MarketItemAttributes(backend, frontend, leadership)
       );
 
       _transfer(msg.sender, address(this), tokenId);
       emit MarketItemCreated(
         tokenId,
+        name,
         msg.sender,
         address(this),
         price,
-        false
+        false,
+        tokenURI(tokenId),
+        MarketItemAttributes(backend, frontend, leadership)
       );
     }
 
@@ -115,6 +139,21 @@ contract SchengattoMarketplace is ERC721URIStorage {
       _transfer(address(this), msg.sender, tokenId);
       payable(owner).transfer(listingPrice);
       payable(seller).transfer(msg.value);
+    }
+
+     /* Returns all items */
+    function fetchAlltems() public view returns (MarketItem[] memory) {
+      uint itemCount = _tokenIds.current();
+      uint currentIndex = 0;
+
+      MarketItem[] memory items = new MarketItem[](itemCount);
+      for (uint i = 0; i < itemCount; i++) {
+        uint currentId = i + 1;
+        MarketItem storage currentItem = idToMarketItem[currentId];
+        items[currentIndex] = currentItem;
+        currentIndex += 1;
+      }
+      return items;
     }
 
     /* Returns all unsold market items */

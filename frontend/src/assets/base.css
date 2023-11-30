@@ -18,11 +18,53 @@
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --vt-c-text-dark-2: rgb(255, 255, 255);
+
+  --space-unit: 8px;
+  --space-xxxxs: calc(var(--space-unit) * 0.25);
+  --space-xxxs: calc(var(--space-unit) * 0.5);
+  --space-xxs: calc(var(--space-unit) * 0.75);
+  --space-xs: calc(var(--space-unit));
+  --space-xssm: calc(var(--space-unit) * 1.5);
+  --space-sm: calc(var(--space-unit) * 2);
+  --space-smmd: calc(var(--space-unit) * 2.5);
+  --space-md: calc(var(--space-unit) * 3);
+  --space-lg: calc(var(--space-unit) * 4);
+  --space-xl: calc(var(--space-unit) * 5);
+  --space-xxl: calc(var(--space-unit) * 6);
+  --space-xxxl: calc(var(--space-unit) * 7);
+  --space-xxxxl: calc(var(--space-unit) * 8);
+
+  --text-xxxl: 48px;
+  --text-xxl: 32px;
+  --text-xl: 26px;
+  --text-lg: 24px;
+  --text-md: 18px;
+  --text-sm: 16px;
+  --text-xs: 14px;
+
+  --text-height-xl: 48px;
+  --text-height-lg: 32px;
+  --text-height-md: 24px;
+  --text-height-smmd: 20px;
+  --text-height-sm: 16px;
+
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+
+  /* Breakpoints screens */
+  --screen-mobile: 320px;
+  --screen-desktop-sm: 1024px;
+  --screen-desktop: 1440px;
 }
 
 /* semantic color variables for this project */
 :root {
+  --white: rgb(255, 255, 255);
+  --white-a60: rgba(255, 255, 255, 0.7);
+  --white-a92: rgba(255, 255, 255, 0.92);
+
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -31,22 +73,68 @@
   --color-border-hover: var(--vt-c-divider-light-1);
 
   --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+
+  --color-text: var(--vt-c-text-dark-2);
+  --color-primary-text: hsl(160, 87%, 47%);
+  --color-highlight: hsl(41, 100%, 61%);
 
   --section-gap: 160px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+      --color-background: var(--vt-c-black);
+      --color-background-soft: var(--vt-c-black-soft);
+      --color-background-mute: var(--vt-c-black-mute);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+      --color-border: var(--vt-c-divider-dark-2);
+      --color-border-hover: var(--vt-c-divider-dark-1);
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+      --color-heading: var(--vt-c-text-dark-1);
+      --color-text: var(--vt-c-text-dark-2);
+  }
+}
+
+.button {
+  padding: 0.5em;
+  color: var(--color-primary-text);
+  border-color: var(--color-primary-text);
+  cursor: pointer;
+  background-color: transparent;
+
+  &:hover {
+      border-color: hsl(41, 100%, 61%);
+      color: hsl(41, 100%, 61%)
+  }
+}
+
+.typewriter {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .05em solid #fafafa; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  /*margin: 0 auto; !* Gives that scrolling effect as the typing happens *!*/
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: typing 3.5s steps(40, end),
+  blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+      width: 0
+  }
+  to {
+      width: 100%
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to {
+      border-color: transparent
+  }
+  50% {
+      border-color: #fafafa;
   }
 }
 
@@ -61,26 +149,95 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
+  background: radial-gradient(circle, rgb(56, 56, 56) 0%, rgba(47, 47, 48, 1) 55%, rgb(10, 10, 10) 100%);
+
+  font-size: 24px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.page {
+  display: block;
+  max-width: 900px;
+  margin: auto;
+  align-items: center;
+  padding-top: 3em;
+
+  .page-item {
+      margin-bottom: 2em;
+  }
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  body {
+      background: rgba(47, 47, 48, 1);
+      font-size: 20px;
+  }
+
+  .page {
+      display: block;
+      max-width: 90%;
+  }
+
+  .typewriter {
+      overflow: visible !important;
+      border-right: none !important;
+      white-space: normal;
+      animation:none !important;
+      blink-caret: none;
+  }
+}
+
+/* override styles when printing */
+@media print {
+  body {
+      margin: 0;
+      color: #000;
+      background-color: #fff;
+      font-size: 18px;
+  }
+
+  header {
+      display: none;
+  }
+
+  footer {
+      display: none;
+  }
+
+  .no-print {
+      display: none !important;
+  }
+
+  .page {
+      padding-top: 0.5em;
+
+      .page-item {
+          margin-bottom: 1em;
+      }
+  }
+
+  .item, p {
+      break-inside: avoid;
+  }
+
+  .typewriter {
+      overflow: visible;
+      border-right: none;
+      white-space: normal;
+  }
+
+  :root {
+      --color-primary-text: hsl(228, 48%, 6%);
+  }
 }

@@ -1,0 +1,37 @@
+@import './base.css';
+
+a, .green {
+    text-decoration: none;
+    color: var(--color-primary-text);
+    transition: 0.4s;
+}
+
+@media (hover: hover) {
+    a:hover {
+        color: var(--color-highlight);
+    }
+}
+
+.exact-active-link {
+    color: var(--color-highlight);
+}
+
+.paragraph-title {
+    border-bottom: 1px solid var(--color-primary-text);
+}
+
+.paragraph-content {
+    margin-top: 0.5em;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+/* override styles when printing */
+@media print {
+    .paragraph-title {
+        border-bottom: 1px solid var(--color-primary-text);
+        font-size: 28px;
+    }
+}

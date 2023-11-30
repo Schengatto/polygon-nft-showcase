@@ -1,4 +1,4 @@
-export const smartContractAddress = "0xfB1bBFd58aB2bf1cd98e4C5684c1F8e7d9Cf2145";
+export const smartContractAddress = '0x9557aeff9845DaFEA89587fB2F28EB41Fde96948';
 
 export const smartContractABI = [
 	{
@@ -40,9 +40,29 @@ export const smartContractABI = [
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
 				"name": "price",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "backend",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "frontend",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "leadership",
+				"type": "uint8"
 			}
 		],
 		"name": "createToken",
@@ -244,6 +264,12 @@ export const smartContractABI = [
 			},
 			{
 				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"internalType": "address",
 				"name": "seller",
 				"type": "address"
@@ -265,6 +291,35 @@ export const smartContractABI = [
 				"internalType": "bool",
 				"name": "sold",
 				"type": "bool"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "tokenURI",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint8",
+						"name": "backend",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "frontend",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint8",
+						"name": "leadership",
+						"type": "uint8"
+					}
+				],
+				"indexed": false,
+				"internalType": "struct SchengattoMarketplace.MarketItemAttributes",
+				"name": "attributes",
+				"type": "tuple"
 			}
 		],
 		"name": "MarketItemCreated",
@@ -478,7 +533,7 @@ export const smartContractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "fetchItemsListed",
+		"name": "fetchAlltems",
 		"outputs": [
 			{
 				"components": [
@@ -486,6 +541,11 @@ export const smartContractABI = [
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
 					},
 					{
 						"internalType": "address payable",
@@ -506,6 +566,105 @@ export const smartContractABI = [
 						"internalType": "bool",
 						"name": "sold",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "backend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "frontend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "leadership",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct SchengattoMarketplace.MarketItemAttributes",
+						"name": "attributes",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct SchengattoMarketplace.MarketItem[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "fetchItemsListed",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "sold",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "backend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "frontend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "leadership",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct SchengattoMarketplace.MarketItemAttributes",
+						"name": "attributes",
+						"type": "tuple"
 					}
 				],
 				"internalType": "struct SchengattoMarketplace.MarketItem[]",
@@ -528,6 +687,11 @@ export const smartContractABI = [
 						"type": "uint256"
 					},
 					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
 						"internalType": "address payable",
 						"name": "seller",
 						"type": "address"
@@ -546,6 +710,33 @@ export const smartContractABI = [
 						"internalType": "bool",
 						"name": "sold",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "backend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "frontend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "leadership",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct SchengattoMarketplace.MarketItemAttributes",
+						"name": "attributes",
+						"type": "tuple"
 					}
 				],
 				"internalType": "struct SchengattoMarketplace.MarketItem[]",
@@ -568,6 +759,11 @@ export const smartContractABI = [
 						"type": "uint256"
 					},
 					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
 						"internalType": "address payable",
 						"name": "seller",
 						"type": "address"
@@ -586,6 +782,33 @@ export const smartContractABI = [
 						"internalType": "bool",
 						"name": "sold",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "tokenURI",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "backend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "frontend",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "leadership",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct SchengattoMarketplace.MarketItemAttributes",
+						"name": "attributes",
+						"type": "tuple"
 					}
 				],
 				"internalType": "struct SchengattoMarketplace.MarketItem[]",
