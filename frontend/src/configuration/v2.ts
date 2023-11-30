@@ -1,3 +1,9 @@
+export const chainInfo = {
+	id: 80001,
+	name: "Mumbai",
+	rpc: "https://rpc-mumbai.maticvigil.com",
+};
+
 export const smartContractAddress = '0x9557aeff9845DaFEA89587fB2F28EB41Fde96948';
 
 export const smartContractABI = [

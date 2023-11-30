@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { Web3 } from 'web3';
-import { smartContractABI, smartContractAddress } from "./configuration/v2";
+import { smartContractABI, smartContractAddress, chainInfo } from "./configuration/v2";
 import { NftItem } from "./types/nft";
 import CardItem from "@/components/CardItem/CardItem.vue";
 
 
-let myContract;
+const myContract = ref<any>(null);
 const accounts = ref<string[]>([]);
 const nftList = ref<NftItem[]>([]);
 
@@ -32,7 +32,7 @@ async function checkMetamaskConnection() {
 }
 
 const fetchUnsoldNfts = async () => {
-  const list = await myContract.methods.fetchMarketItems().call();
+  const list = await myContract.value.methods.fetchMarketItems().call();
   nftList.value = list.map((nft: NftItem) => (
     {
       tokenId: nft.tokenId,
@@ -49,10 +49,10 @@ const fetchUnsoldNfts = async () => {
     }));
 };
 
-const handleBuy = async (_tokenId: string) => { 
-  console.log(myContract.methods)
+const handleBuy = async (_tokenId: number) => {
+  console.log(myContract.value.methods)
   console.log(_tokenId)
-  await myContract.methods.createMarketSale(_tokenId).call();
+  await myContract.value.methods.createMarketSale(_tokenId).call();
 };
 
 onMounted(() => {
@@ -60,7 +60,24 @@ onMounted(() => {
     const isMetaMask = await checkMetamaskConnection();
     if (isMetaMask) {
       const web3 = new Web3(ethereum.value as any);
-      myContract = await new web3.eth.Contract(smartContractABI, smartContractAddress);
+      const currentChainId = await web3.eth.net.getId();
+
+      // switch chain
+      if (Number(currentChainId) !== chainInfo.id) {
+        try {
+          await web3.currentProvider?.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: Web3.utils.toHex(chainInfo.id) }],
+          });
+        } catch (switchError: any) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (switchError.code === 4902) {
+            alert('add this chain id')
+          }
+        }
+      }
+
+      myContract.value = await new web3.eth.Contract(smartContractABI, smartContractAddress);
       await fetchUnsoldNfts();
     } else {
       alert("Metamask not detected!")
@@ -98,6 +115,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .showcase {
   margin: 32px auto;
+
   .nft-grid {
     display: flex;
     gap: 16px;
